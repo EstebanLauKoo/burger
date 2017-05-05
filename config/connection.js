@@ -8,31 +8,28 @@
  * Dependencies
  */
 const mysql = require("mysql");
-
+var connection;
 /**
  * Check if Node environment variable is equal to production,
  * If production is set, db is equal to JAWSDB_URL env variable.
  * Otherwise, create and object with localhost env variables for MySQL.
  */
-const db = process.env.NODE_ENV === 'production'
-    ? process.env.JAWSDB_URL
-    : { host: process.env.MYSQL_HOST,
-        port: process.env.MYSQL_PORT,
-        user: process.env.MYSQL_USER,
-        password: process.env.MYSQL_PASSWORD,
-        database: process.env.MYSQL_DATABASE };
+if (process.env.JAWSDB_URL) {
+    connection = mysql.createConnection(process.env.JAWSDB_URL)
+}
+else{
+     connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        port: 3306,
+        password: "4801",
+        database: "burger_db"
+    });
+}
 
-//var connection = mysql.createConnection({
-//    host: "localhost",
-//    user: "root",
-//    port: 3306,
-//    password: "4801",
-//    database: "burger_db"
-//});
 /**
  * Call mysql.createConnection using db options and save to connection variable for export.
  */
-const connection = mysql.createConnection(db);
 
 /**
  * Connect to mysql server, otherwise console error.
